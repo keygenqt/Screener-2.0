@@ -1,6 +1,6 @@
-/*.egg-info
+/fellow.egg-info/
 /venv/
 /dist/
 /build/
 /*.pyz
-/.idea
+/.idea/

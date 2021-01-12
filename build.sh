@@ -15,4 +15,4 @@ python3 setup.py sdist bdist_wheel
 pip3 install . --target dist/
 
 # finally, build!
-shiv --site-packages dist --compressed -p '/usr/bin/env python3' -o screener-"$version".pyz -e screener.app.main:cli
+shiv --site-packages dist --compressed -p '/usr/bin/env python3' -o screener-"$version".pyz -e screener.__main__:cli
