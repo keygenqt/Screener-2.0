@@ -1,5 +1,7 @@
 import click
 
+from screener.src.common.config import conf_key_save, conf_key_credentials, conf_key_imgur
+
 
 @click.group(name='settings')
 @click.pass_context
@@ -20,7 +22,17 @@ def update(ctx, save, credentials, imgur):
         click.echo("Specify optionals for updating. Use --help for see optionals.")
         exit(0)
 
+    if save is not None:
+        ctx.obj.conf.update(conf_key_save, save)
+
+    if credentials is not None:
+        ctx.obj.conf.update(conf_key_credentials, credentials)
+
+    if imgur is not None:
+        ctx.obj.conf.update(conf_key_imgur, imgur)
+
     click.echo(click.style("Params after update:", fg='bright_white'))
-    click.echo("   save: {}".format(ctx.obj.conf.get('save')))
-    click.echo("   credentials: {}".format(ctx.obj.conf.get('credentials')))
-    click.echo("   imgur: {}".format(ctx.obj.conf.get('imgur')))
+    click.echo(click.style("\nPath config: {}".format(ctx.obj.conf.path), fg='white'))
+
+    with open(ctx.obj.conf.path, 'r') as file:
+        click.echo('\n{}\n'.format(file.read().strip()))
