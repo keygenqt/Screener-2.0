@@ -2,13 +2,11 @@
 ---
 
 # Folder path for save screenshot
-save: {}/{}
+save: /home/keygenqt/Pictures
 
 # Cloud credentials path to file
 credentials: /path/to/file/credentials.json
-
-# Cloud translate language
-language: ru
-
+    
 # Upload screenshot to Imgur
-imgur: true
+imgur: false
+

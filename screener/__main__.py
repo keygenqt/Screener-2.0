@@ -1,24 +1,16 @@
 import click
 
 from .src.commands.cloud import cli_cloud
-from .src.commands.settings import cli_settings
 from .src.commands.grab import cli_grab
+from .src.commands.settings import cli_settings
 from .src.common.config import Config
 
 
-class App(object):
-    conf = None
-    dev = None
-
-    def __init__(self, dev=False):
-        self.conf = Config(dev)
-        self.dev = dev
-
-
 @click.group()
+@click.option('--test', help='For test', hidden=True, is_flag=True, default=False, is_eager=True)
 @click.option('--dev', help='For configuration ./', type=click.BOOL, default=False, hidden=True)
 @click.pass_context
-def cli(ctx, dev):
+def cli(ctx, dev, test):
     """
         Application "screener" for easy screenshot.
 
@@ -26,7 +18,9 @@ def cli(ctx, dev):
         language in the screenshot? - Translate
         it, or use the function to get the text.
     """
-    ctx.obj = App(dev)
+    # ctx.obj = Config(test, dev)
+    if not hasattr(ctx.obj, 'test'):
+        ctx.obj = Config(test, dev)
 
 
 cli.add_command(cli_grab)

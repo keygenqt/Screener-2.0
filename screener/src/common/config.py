@@ -29,28 +29,24 @@ conf_default_imgur = 'true'
 
 
 class Config:
-    def __init__(self, dev=False):
-        # dev - path info project yml conf
-        if not dev:
-            home = str(Path.home())
-        else:
-            home = str(Path(__file__).cwd())
+    def __init__(self, test=False, dev=False):
+        self.dev = (test, dev)[test]
+        self.test = test
+        self.home = (str(Path.home()), str(Path(__file__).cwd()))[dev]
+        self.path = Path('{}/.{}.yml'.format(self.home, conf_name))
 
-        # check path
-        p = Path('{}/.{}.yml'.format(home, conf_name))
-        if not p.is_file():
-            p = Path('{}/{}.yml'.format(home, conf_name))
-        if not p.is_file():
-            click.echo(click.style("\nAdded default config. {}\nPlease configure the application.\n".format(p.absolute()), fg="yellow"))
-            print(default.format(
-                conf_default_save,
-                conf_default_credentials,
-                conf_default_imgur
-            ), file=open(p.absolute(), 'w'))
+        if not self.path.is_file():
+            self.path = Path('{}/{}.yml'.format(self.home, conf_name))
+        if not self.path.is_file():
+            click.echo(click.style("\nAdded default config. {}\nPlease configure the application.\n".format(self.path.absolute()), fg="yellow"))
+            with open(self.path.absolute(), 'w') as f:
+                print(default.format(
+                    conf_default_save,
+                    conf_default_credentials,
+                    conf_default_imgur
+                ), file=f)
 
-        self.path = p
-
-        with open(p.absolute(), 'rb') as f:
+        with open(self.path.absolute(), 'rb') as f:
             self.data = load(f.read(), Loader=Loader)
 
     def get(self, name):
@@ -76,12 +72,9 @@ class Config:
 
     def update(self, name, value):
         self.data[name] = value
-        print(default.format(
-            self.data[conf_key_save],
-            self.data[conf_key_credentials],
-            str(self.data[conf_key_imgur]).lower(),
-        ), file=open(self.path.absolute(), 'w'))
-
-    def reload(self):
-        with open(self.path.absolute(), 'rb') as f:
-            self.data = load(f.read(), Loader=Loader)
+        with open(self.path.absolute(), 'w') as f:
+            print(default.format(
+                self.data[conf_key_save],
+                self.data[conf_key_credentials],
+                str(self.data[conf_key_imgur]).lower(),
+            ), file=f)
