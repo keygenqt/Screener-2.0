@@ -18,11 +18,13 @@ class Test(TestCase):
 
     # test conf value
     def test_update_value(self):
-        result = runner.invoke(cli, ['settings', 'update', '--imgur', False], obj=config)
+        with open(config.path) as f:
+            data1 = load(f.read(), Loader=Loader)
+
+        result = runner.invoke(cli, ['settings', 'update', '--imgur', (True, False)[data1[conf_key_imgur]]], obj=config)
         self.assertEqual(result.exit_code, 0)
 
-        with open(config.path.absolute()) as f:
-            self.data = load(f.read(), Loader=Loader)
-            f.close()
+        with open(config.path) as f:
+            data2 = load(f.read(), Loader=Loader)
 
-        self.assertEqual(False, self.data[conf_key_imgur])
+        self.assertNotEqual(data1[conf_key_imgur], data2[conf_key_imgur])

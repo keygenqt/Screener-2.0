@@ -4,8 +4,7 @@ from screener.src.common.config import conf_key_save, conf_key_credentials, conf
 
 
 @click.group(name='settings')
-@click.pass_context
-def cli_settings(ctx):
+def cli_settings():
     """Configure the application via the command line."""
     pass
 

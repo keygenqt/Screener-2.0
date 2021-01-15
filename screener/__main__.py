@@ -5,10 +5,11 @@ from .src.commands.grab import cli_grab
 from .src.commands.settings import cli_settings
 from .src.common.config import Config
 
+Config.init_conf()
 
 @click.group()
 @click.option('--test', help='For test', hidden=True, is_flag=True, default=False, is_eager=True)
-@click.option('--dev', help='For configuration ./', type=click.BOOL, default=False, hidden=True)
+@click.option('--dev', help='For configuration ./', hidden=True, is_flag=True, default=False, is_eager=True)
 @click.pass_context
 def cli(ctx, dev, test):
     """

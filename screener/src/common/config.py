@@ -29,22 +29,24 @@ conf_default_imgur = 'true'
 
 
 class Config:
-    def __init__(self, test=False, dev=False):
-        self.dev = (test, dev)[test]
-        self.test = test
-        self.home = (str(Path.home()), str(Path(__file__).cwd()))[dev]
-        self.path = Path('{}/.{}.yml'.format(self.home, conf_name))
 
-        if not self.path.is_file():
-            self.path = Path('{}/{}.yml'.format(self.home, conf_name))
-        if not self.path.is_file():
-            click.echo(click.style("\nAdded default config. {}\nPlease configure the application.\n".format(self.path.absolute()), fg="yellow"))
-            with open(self.path.absolute(), 'w') as f:
+    @staticmethod
+    def init_conf():
+        path = Path('{}/.{}.yml'.format(Path.home(), conf_name))
+        if not path.is_file():
+            click.echo(click.style("\nAdded default config. {}\nPlease configure the application.\n".format(path), fg="yellow"))
+            with open(path, 'w') as file:
                 print(default.format(
                     conf_default_save,
                     conf_default_credentials,
                     conf_default_imgur
-                ), file=f)
+                ), file=file)
+
+    def __init__(self, test=False, dev=False):
+        self.dev = (test, dev)[test]
+        self.test = test
+        self.home = (str(Path.home()), str(Path(__file__).cwd()))[dev]
+        self.path = Path('{}/{}.yml'.format(self.home, ('.{}'.format(conf_name), conf_name)[dev]))
 
         with open(self.path.absolute(), 'rb') as f:
             self.data = load(f.read(), Loader=Loader)
@@ -72,9 +74,9 @@ class Config:
 
     def update(self, name, value):
         self.data[name] = value
-        with open(self.path.absolute(), 'w') as f:
+        with open(self.path.absolute(), 'w') as file:
             print(default.format(
                 self.data[conf_key_save],
                 self.data[conf_key_credentials],
                 str(self.data[conf_key_imgur]).lower(),
-            ), file=f)
+            ), file=file)
