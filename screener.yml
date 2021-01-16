@@ -10,3 +10,6 @@ credentials: /path/to/file/credentials.json
 # Upload screenshot to Imgur
 imgur: false
 
+# Screenshot extension for save png/jpg
+extension: png
+

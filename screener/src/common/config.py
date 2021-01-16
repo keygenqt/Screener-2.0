@@ -17,15 +17,20 @@ credentials: {}
     
 # Upload screenshot to Imgur
 imgur: {}
+
+# Screenshot extension for save png/jpg
+extension: {}
 """
 
 conf_key_save = 'save'
 conf_key_credentials = 'credentials'
 conf_key_imgur = 'imgur'
+conf_key_extension = 'extension'
 
 conf_default_save = '{}/{}'.format(Path.home(), conf_name)
 conf_default_credentials = '/path/to/file/credentials.json'
 conf_default_imgur = 'true'
+conf_default_extension = 'png'
 
 
 class Config:
@@ -39,7 +44,8 @@ class Config:
                 print(default.format(
                     conf_default_save,
                     conf_default_credentials,
-                    conf_default_imgur
+                    conf_default_imgur,
+                    conf_default_extension
                 ), file=file)
 
     def __init__(self, test=False, dev=False):
@@ -52,6 +58,12 @@ class Config:
             self.data = load(f.read(), Loader=Loader)
 
     def get(self, name):
+
+        if name == conf_key_extension:
+            if conf_key_extension in self.data:
+                return self.data[name]
+            else:
+                return conf_default_extension
 
         if name == conf_key_imgur:
             if conf_key_imgur in self.data and isinstance(self.data[name], bool):
@@ -69,8 +81,9 @@ class Config:
             if conf_key_save in self.data and Path(self.data[name]).is_dir():
                 return self.data[name]
             else:
-                Path(self.data[name]).mkdir(parents=True, exist_ok=True)
-                return self.data[name]
+                if not Path(self.data[name]).exists():
+                    Path(self.data[name]).mkdir(parents=True, exist_ok=True)
+                    return self.data[name]
 
     def update(self, name, value):
         self.data[name] = value
@@ -79,4 +92,5 @@ class Config:
                 self.data[conf_key_save],
                 self.data[conf_key_credentials],
                 str(self.data[conf_key_imgur]).lower(),
+                conf_default_extension,
             ), file=file)

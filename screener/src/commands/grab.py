@@ -1,4 +1,5 @@
 import click
+import pyperclip
 
 from screener.src.common.select import select
 
@@ -14,4 +15,8 @@ def cli_grab():
 @click.pass_context
 def area(ctx, delay):
     """Select area."""
-    click.echo(click.style(select(), fg='blue'))
+    path = select(ctx.obj.get('save'), ctx.obj.get('extension'))
+    if path != '':
+        with open(path, 'rb') as f:
+            pyperclip.copy('The text to be copied to the clipboard.')
+            pyperclip.paste()

@@ -1,6 +1,6 @@
 import click
 
-from screener.src.common.config import conf_key_save, conf_key_credentials, conf_key_imgur
+from screener.src.common.config import conf_key_save, conf_key_credentials, conf_key_imgur, conf_key_extension
 
 
 @click.group(name='settings')
@@ -13,8 +13,9 @@ def cli_settings():
 @click.option('--save', '-s', help='Update dir for save screenshots.', type=click.STRING, required=False)
 @click.option('--credentials', '-c', help='Update path credentials file google cloud.', type=click.STRING, required=False)
 @click.option('--imgur', '-i', help='Update imgur bool.', type=click.BOOL, required=False)
+@click.option('--extension', '-e', help='Update imgur bool.', type=click.STRING, required=False)
 @click.pass_context
-def update(ctx, save, credentials, imgur):
+def update(ctx, save, credentials, imgur, extension):
     """Update configuration file params."""
 
     if save is None and credentials is None and imgur is None:
@@ -29,6 +30,12 @@ def update(ctx, save, credentials, imgur):
 
     if imgur is not None:
         ctx.obj.update(conf_key_imgur, imgur)
+
+    if extension is not None:
+        if extension != 'png' and extension != 'jpg':
+            click.echo("Screenshot extension for save png/jpg!")
+            exit(1)
+        ctx.obj.update(conf_key_extension, extension)
 
     if not ctx.obj.test:
         click.echo(click.style("Params after update:", fg='bright_white'))

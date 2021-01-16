@@ -1,8 +1,9 @@
 import tkinter as tk
 from dataclasses import dataclass
+from pathlib import Path
 
 import pyautogui
-from PIL import Image, ImageTk, ImageDraw
+from PIL import Image, ImageTk, ImageDraw, ImageGrab
 
 root = tk.Tk()
 
@@ -15,7 +16,7 @@ class Point:
     y2: int
 
 
-def select():
+def select(save, extension):
     root.attributes('-fullscreen', True)
 
     s = pyautogui.screenshot()
@@ -24,6 +25,9 @@ def select():
     global photo_img
     img = Image.frombytes(s.mode, (s.width, s.height), s.tobytes(), 'raw')
     photo_img = ImageTk.PhotoImage(img)
+
+    canvas1 = tk.Canvas(root, bd=0, highlightthickness=0, relief='ridge')
+    canvas1.pack(side="bottom", fill="both", expand="yes")
 
     def get_im(event):
         root.one = ImageTk.PhotoImage(
@@ -38,9 +42,6 @@ def select():
         mask = mask.resize(im.size, Image.ANTIALIAS)
         im.putalpha(mask)
         return im
-
-    canvas1 = tk.Canvas(root, bd=0, highlightthickness=0, relief='ridge')
-    canvas1.pack(side="bottom", fill="both", expand="yes")
 
     def mod(point):
         new_point = Point(x1=point.x1, y1=point.y1, x2=point.x2, y2=point.y2)
@@ -99,7 +100,18 @@ def select():
         draw_bg(mod(g_point))
         draw_glass(event)
 
-    def close_escape(event=None):
+    def get_count(path):
+        return sum(1 for x in path.glob('**/*') if x.is_file())
+
+    def return_release(event):
+        global g_point
+        global g_image
+        point = mod(g_point)
+        g_image = '{}/{}.{}'.format(save, get_count(Path(save)) + 1, extension)
+        ImageGrab.grab().crop((point.x1 + 1, point.y1 + 1, point.x2, point.y2)).save(g_image)
+        root.destroy()
+
+    def close_escape(event):
         root.destroy()
 
     def button_press(event):
@@ -110,12 +122,15 @@ def select():
             g_point = Point(x1=0, y1=0, x2=s.width, y2=s.height)
 
     def button_release(event):
+        print('num: {}'.format(event.num))
         if event.num == 1:
             global g_press
             g_press = False
 
     global g_press
     global g_point
+    global g_image
+    g_image = ''
     g_press = False
     g_point = Point(x1=0, y1=0, x2=s.width, y2=s.height)
 
@@ -124,8 +139,9 @@ def select():
     root.bind('<ButtonPress>', button_press)
     root.bind('<ButtonRelease>', button_release)
     root.bind("<Escape>", close_escape)
+    root.bind("<KeyRelease-Return>", return_release)
     root.bind('<Motion>', motion)
 
     root.mainloop()
 
-    return '/image/id.jpg/png'
+    return g_image
