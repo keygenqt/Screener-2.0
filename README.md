@@ -1,15 +1,17 @@
 Screener 2.0
 ===================
 
-A terminal app for take screenshot
+A **CLI** app for take screenshot
 
-*version* - 0.0.1
+**version** - 0.0.1
 
 * take desktop
 * take area
 * dealy
-* png/jpg
-
+* save in png/jpg
+* set screenshot to clipboard
+* upload to imgur
+* update config yml from command line
 
 ### Build *.pyz
 
