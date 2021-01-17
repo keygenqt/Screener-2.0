@@ -4,12 +4,10 @@
 # Folder path for save screenshot
 save: /home/keygenqt/Pictures
 
-# Cloud credentials path to file
-credentials: /path/to/file/credentials.json
-    
 # Upload screenshot to Imgur
 imgur: false
 
 # Screenshot extension for save png/jpg
+# Recommend using png format file
 extension: png
 

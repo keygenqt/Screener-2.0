@@ -17,7 +17,11 @@ setuptools.setup(
     py_modules=['colors'],
     install_requires=[
         'click',
-        'pyYaml'
+        'pyYaml',
+        'pyautogui',
+        'pyperclip',
+        'imgurpython',
+        'Pillow'
     ],
     python_requires='>=3.6'
 )

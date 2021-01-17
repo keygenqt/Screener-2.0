@@ -16,6 +16,7 @@ save: {}
 imgur: {}
 
 # Screenshot extension for save png/jpg
+# Recommend using png format file
 extension: {}
 """
 

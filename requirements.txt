@@ -3,3 +3,4 @@ pyYaml
 pyautogui
 pyperclip
 imgurpython
+Pillow
