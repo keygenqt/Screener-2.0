@@ -14,9 +14,7 @@ def cli(ctx, dev, test):
     """
         Application "screener" for easy screenshot.
 
-        Take screenshots. Modify. Share. Unfamiliar
-        language in the screenshot? - Translate
-        it, or use the function to get the text.
+        Take screenshots. Modify. Share.
     """
     if not hasattr(ctx.obj, 'test'):
         ctx.obj = Config(test, dev)
