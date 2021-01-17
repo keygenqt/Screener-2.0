@@ -11,9 +11,6 @@ default = """### Screener Configuration
 
 # Folder path for save screenshot
 save: {}
-
-# Cloud credentials path to file
-credentials: {}
     
 # Upload screenshot to Imgur
 imgur: {}
@@ -23,12 +20,10 @@ extension: {}
 """
 
 conf_key_save = 'save'
-conf_key_credentials = 'credentials'
 conf_key_imgur = 'imgur'
 conf_key_extension = 'extension'
 
 conf_default_save = '{}/{}'.format(Path.home(), conf_name)
-conf_default_credentials = '/path/to/file/credentials.json'
 conf_default_imgur = 'false'
 conf_default_extension = 'png'
 
@@ -43,7 +38,6 @@ class Config:
             with open(path, 'w') as file:
                 print(default.format(
                     conf_default_save,
-                    conf_default_credentials,
                     conf_default_imgur,
                     conf_default_extension
                 ), file=file)
@@ -71,12 +65,6 @@ class Config:
             else:
                 return False
 
-        if name == conf_key_credentials:
-            if conf_key_credentials in self.data:
-                return self.data[name]
-            else:
-                return ''
-
         if name == conf_key_save:
             if conf_key_save in self.data and Path(self.data[name]).is_dir():
                 return self.data[name]
@@ -90,7 +78,6 @@ class Config:
         with open(self.path.absolute(), 'w') as file:
             print(default.format(
                 self.data[conf_key_save],
-                self.data[conf_key_credentials],
                 str(self.data[conf_key_imgur]).lower(),
                 conf_default_extension,
             ), file=file)

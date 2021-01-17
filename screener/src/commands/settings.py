@@ -1,6 +1,6 @@
 import click
 
-from screener.src.common.config import conf_key_save, conf_key_credentials, conf_key_imgur, conf_key_extension
+from screener.src.common.config import conf_key_save, conf_key_imgur, conf_key_extension
 
 
 @click.group(name='settings')
@@ -11,22 +11,18 @@ def cli_settings():
 
 @cli_settings.command()
 @click.option('--save', '-s', help='Update dir for save screenshots.', type=click.STRING, required=False)
-@click.option('--credentials', '-c', help='Update path credentials file google cloud.', type=click.STRING, required=False)
 @click.option('--imgur', '-i', help='Update imgur bool.', type=click.BOOL, required=False)
-@click.option('--extension', '-e', help='Update imgur bool.', type=click.STRING, required=False)
+@click.option('--extension', '-e', help='Extension for save png/jpg.', type=click.STRING, required=False)
 @click.pass_context
-def update(ctx, save, credentials, imgur, extension):
+def update(ctx, save, imgur, extension):
     """Update configuration file params."""
 
-    if save is None and credentials is None and imgur is None:
+    if save is None and imgur is None and extension is None:
         click.echo("Specify optionals for updating. Use --help for see optionals.")
         exit(0)
 
     if save is not None:
         ctx.obj.update(conf_key_save, save)
-
-    if credentials is not None:
-        ctx.obj.update(conf_key_credentials, credentials)
 
     if imgur is not None:
         ctx.obj.update(conf_key_imgur, imgur)

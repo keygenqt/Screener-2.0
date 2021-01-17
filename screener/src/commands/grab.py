@@ -1,13 +1,9 @@
-import subprocess
 import time
-from pathlib import Path
 
 import click
-import pyautogui
-import pyperclip
-from imgurpython import ImgurClient
 
-from screener.src.common.select import select
+from screener.src.select.output import Output
+from screener.src.select.select import Select
 
 
 @click.group(name='grab')
@@ -22,17 +18,8 @@ def cli_grab():
 def area(ctx, delay):
     """Take screenshot with select area."""
     time.sleep(delay)
-    imgur = ctx.obj.get('imgur')
-    ex = ctx.obj.get('extension')
-    path = select(ctx.obj.get('save'), ex)
-    if path != '':
-        if imgur:
-            pyperclip.copy(upload_imgur(path))
-            click.echo('Added url the clipboard successfully.'.format(path))
-        else:
-            subprocess.run(['xclip', '-selection', 'clipboard', '-t', 'image/{}'.format(ex), path])
-            click.echo('Saved successfully: {}'.format(path))
-            click.echo('Added to the clipboard successfully.'.format(path))
+    image = Select(ctx).area()
+    Output.show(ctx, image)
 
 
 @cli_grab.command()
@@ -41,26 +28,5 @@ def area(ctx, delay):
 def desktop(ctx, delay):
     """Take screenshot full desktop."""
     time.sleep(delay)
-
-    def get_count(value):
-        return sum(1 for x in value.glob('**/*') if x.is_file())
-
-    imgur = ctx.obj.get('imgur')
-    save = ctx.obj.get('save')
-    ex = ctx.obj.get('extension')
-    path = '{}/{}.{}'.format(save, get_count(Path(save)) + 1, ex)
-    s = pyautogui.screenshot()
-    s.save(path)
-
-    if path != '':
-        if imgur:
-            pyperclip.copy(upload_imgur(path))
-            click.echo('Added url the clipboard successfully.'.format(path))
-        else:
-            subprocess.run(['xclip', '-selection', 'clipboard', '-t', 'image/{}'.format(ex), path])
-            click.echo('Saved successfully: {}'.format(path))
-            click.echo('Added to the clipboard successfully.'.format(path))
-
-
-def upload_imgur(path):
-    return ImgurClient('de5c50f78fc633e', '----WebKitFormBoundary7MA4YWxkTrZu0gW').upload_from_path(path)['link']
+    image = Select(ctx).desktop()
+    Output.show(ctx, image)
