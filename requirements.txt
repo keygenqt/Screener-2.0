@@ -1,6 +1,5 @@
 click
 pyYaml
-pyautogui
 pyperclip
 imgurpython
 Pillow

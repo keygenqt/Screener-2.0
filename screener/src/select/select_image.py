@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import pyautogui
 from PIL import Image, ImageTk, ImageDraw, ImageGrab
 
 
@@ -9,7 +8,7 @@ class SelectImage:
         self.conf_save = ctx.obj.get('save')
         self.conf_extension = ctx.obj.get('extension')
         self.path = self.__get_path_img()
-        self.screenshot = pyautogui.screenshot()
+        self.screenshot = ImageGrab.grab()
         self.data = self.__get_image()
         self.is_save = False
 

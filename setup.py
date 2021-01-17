@@ -18,10 +18,13 @@ setuptools.setup(
     install_requires=[
         'click',
         'pyYaml',
-        'pyautogui',
         'pyperclip',
         'imgurpython',
-        'Pillow'
+        'Pillow',
     ],
-    python_requires='>=3.6'
+    python_requires='>=3.6',
+    entry_points="""
+        [console_scripts]
+        screener2 = screener.__main__:cli
+    """
 )
