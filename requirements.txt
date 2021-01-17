@@ -2,3 +2,4 @@ click
 pyYaml
 pyautogui
 pyperclip
+imgurpython

@@ -25,7 +25,7 @@ def cli(ctx, dev, test):
 
 
 cli.add_command(cli_grab)
-cli.add_command(cli_cloud)
+# cli.add_command(cli_cloud)
 cli.add_command(cli_settings)
 
 if __name__ == '__main__':

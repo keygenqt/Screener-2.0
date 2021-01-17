@@ -29,7 +29,7 @@ conf_key_extension = 'extension'
 
 conf_default_save = '{}/{}'.format(Path.home(), conf_name)
 conf_default_credentials = '/path/to/file/credentials.json'
-conf_default_imgur = 'true'
+conf_default_imgur = 'false'
 conf_default_extension = 'png'
 
 

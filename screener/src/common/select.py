@@ -122,7 +122,6 @@ def select(save, extension):
             g_point = Point(x1=0, y1=0, x2=s.width, y2=s.height)
 
     def button_release(event):
-        print('num: {}'.format(event.num))
         if event.num == 1:
             global g_press
             g_press = False
