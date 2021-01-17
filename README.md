@@ -18,7 +18,6 @@ git clone https://github.com/keygenqt/screener-2.0.git
 cd screener-2.0
 chmod +x ./build.sh
 ./build.sh
-python3 screener-{version}.pyz
 ```
 
 ### Dependency:
