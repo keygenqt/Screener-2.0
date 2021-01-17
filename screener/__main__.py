@@ -12,9 +12,7 @@ Config.init_conf()
 @click.pass_context
 def cli(ctx, dev, test):
     """
-        Application "screener" for easy screenshot.
-
-        Take screenshots. Modify. Share.
+        A CLI app for take screenshot. Take screenshots. Modify. Share.
     """
     if not hasattr(ctx.obj, 'test'):
         ctx.obj = Config(test, dev)

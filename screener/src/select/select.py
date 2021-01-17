@@ -82,8 +82,8 @@ class Select:
         im_tk = SelectImage.get_crop_tkimage_from_img(self.root, im_round)
         # draw
         self.canvas.create_image(event.x, event.y, image=im_tk, anchor="nw")
-        self.canvas.create_line(event.x + 100, event.y, event.x + 100, event.y + 200, width=1, fill='green')
-        self.canvas.create_line(event.x, event.y + 100, event.x + 200, event.y + 100, width=1, fill='green')
+        self.canvas.create_line(event.x + 100, event.y, event.x + 100, event.y + 200, width=1, fill='gray')
+        self.canvas.create_line(event.x, event.y + 100, event.x + 200, event.y + 100, width=1, fill='gray')
 
     def draw_bg_for_area(self, point):
         """Draw background with shadow."""
@@ -104,7 +104,7 @@ class Select:
             self.canvas.create_rectangle(0, point.y1, point.x1, point.y2, outline="", fill="#393939", stipple='gray50')
             self.canvas.create_rectangle(0, point.y2, w, h, outline="", fill="#393939", stipple='gray50')
             self.canvas.create_rectangle(point.x2, point.y1, w, point.y2, outline="", fill="#393939", stipple='gray50')
-            self.canvas.create_rectangle(point.x1, point.y1, point.x2, point.y2, outline="red")
+            self.canvas.create_rectangle(point.x1, point.y1, point.x2, point.y2, outline="gray")
 
     @staticmethod
     def __mod(point):

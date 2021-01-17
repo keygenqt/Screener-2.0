@@ -37,4 +37,4 @@ sudo apt-get install xclip
 python3 screener-{version}.pyz
 ```
 
-![picture](data/screenshot.png)
+![picture](data/screenshot-0.png)
